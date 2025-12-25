@@ -1,0 +1,15 @@
+# Memory Policy
+
+consolidation:
+  enabled: true
+  interval: 3600  # seconds
+
+retention:
+  episodic: 86400  # 1 day
+  semantic: 2592000  # 30 days
+  procedural: 604800  # 7 days
+
+decay:
+  enabled: true
+  rate: 0.001  # per second
+

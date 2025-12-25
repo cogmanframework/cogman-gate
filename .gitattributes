@@ -1,0 +1,54 @@
+# Git Attributes
+# Purpose: Configure Git behavior for different file types
+
+# ============================================
+# Text Files (Normalize Line Endings)
+# ============================================
+*.py text eol=lf
+*.cpp text eol=lf
+*.hpp text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+*.sh text eol=lf
+*.cmake text eol=lf
+CMakeLists.txt text eol=lf
+
+# ============================================
+# Binary Files
+# ============================================
+*.so binary
+*.dylib binary
+*.dll binary
+*.a binary
+*.o binary
+*.obj binary
+*.exe binary
+*.pyc binary
+*.pyo binary
+
+# ============================================
+# IP Protection - Mark Source Files
+# ============================================
+kernel/src/*.cpp linguist-language=C++
+kernel/include/**/*.hpp linguist-language=C++
+*.py linguist-language=Python
+
+# ============================================
+# Documentation
+# ============================================
+*.md linguist-documentation
+docs/**/*.md linguist-documentation
+
+# ============================================
+# Generated Files (Exclude from Stats)
+# ============================================
+*.pyc linguist-generated=true
+*.pyo linguist-generated=true
+__pycache__/ linguist-generated=true
+*.so linguist-generated=true
+*.dylib linguist-generated=true
+*.dll linguist-generated=true
+

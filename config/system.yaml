@@ -1,0 +1,25 @@
+# System Configuration
+
+mode:
+  flag: "ENGINEERING_SIM"
+  description: "Mathematical models inspired by physics (not clinical)"
+
+safety:
+  fail_closed:
+    enabled: true
+  thresholds:
+    H_hold: 0.85
+    S_stabilize: 0.2
+    E_total_max: null
+
+operational:
+  learning_enabled: false
+  trace_enabled: true
+  validation_enabled: true
+  performance_monitoring: true
+
+legal:
+  disclaimer_template: "Mathematical models inspired by physics"
+  no_clinical_assertion: "Not a clinical system"
+  owner_defined_thresholds_only: true
+

@@ -1,0 +1,209 @@
+# ============================================================
+# GATE_POLICY.yaml
+# Canonical Decision Gate Configuration
+# Version: v1.0-PROD-LOCKED
+# Status: LOCKED — Do not modify without formal review
+#
+# NOTE:
+# - This policy defines ENGINEERING DECISION GATES ONLY
+# - Not medical, not psychological, not human judgment
+# - All thresholds are system-owner defined
+# ============================================================
+
+meta:
+  policy_name: CORE-9_DECISION_GATE
+  version: v1.0
+  status: LOCKED
+  owner: system_owner
+  decision_modes: [ALLOW, REVIEW, BLOCK]
+  fail_closed: true
+  explainable: true
+  deterministic: true
+
+# ------------------------------------------------------------
+# Global Constraints (apply to all contexts)
+# ------------------------------------------------------------
+global:
+  metrics:
+    embedding_distance:
+      method: cosine        # LOCKED metric
+      normalize: true
+
+    entropy:
+      method: percentile
+      percentile: 95        # p95
+      scale: [0.0, 1.0]
+
+    e_mu:
+      unit: internal_index  # dimensionless
+      normalization: personal_baseline_only
+
+  safety_locks:
+    - rule_violation_always_block
+    - e_mu_never_single_decider
+    - no_auto_fix_in_gate
+    - no_model_inference
+
+# ------------------------------------------------------------
+# Context-Specific Gate Profiles
+# ------------------------------------------------------------
+contexts:
+
+  # ==========================================================
+  # ROBOT CONTROL CONTEXT
+  # ==========================================================
+  robot_control:
+    description: >
+      Physical actuation context.
+      Conservative thresholds. Human safety first.
+
+    limits:
+      embedding_distance:
+        max: 0.35
+
+      entropy:
+        max_p95: 0.62
+
+      e_mu_bands:
+        accept:   [30, 80]
+        caution:  [15, 30)
+        restrict: (-inf, 15)
+
+      stability:
+        variance_max: 8.0
+
+      trend:
+        negative_trend_review: true
+
+    decision_logic:
+      - if: "rule_score == 0"
+        verdict: BLOCK
+        reason: rule_violation
+
+      - if: "e_mu < e_mu_bands.restrict.max"
+        verdict: BLOCK
+        reason: low_internal_energy
+
+      - if: "entropy > entropy.max_p95"
+        verdict: REVIEW
+        reason: high_entropy
+
+      - if: "embedding_distance > embedding_distance.max"
+        verdict: REVIEW
+        reason: semantic_drift
+
+      - if: "e_mu_trend < 0 and e_mu in e_mu_bands.caution"
+        verdict: REVIEW
+        reason: declining_readiness
+
+      - if: "e_mu_variance > stability.variance_max"
+        verdict: REVIEW
+        reason: instability
+
+      - else:
+        verdict: ALLOW
+        reason: within_bounds
+
+  # ==========================================================
+  # CHAT / LANGUAGE CONTEXT
+  # ==========================================================
+  chat:
+    description: >
+      Conversational output context.
+      Higher tolerance than physical systems.
+
+    limits:
+      embedding_distance:
+        max: 0.45
+
+      entropy:
+        max_p95: 0.75
+
+      e_mu_bands:
+        accept:   [25, 85]
+        caution:  [10, 25)
+        restrict: (-inf, 10)
+
+      stability:
+        variance_max: 12.0
+
+    decision_logic:
+      - if: "rule_score == 0"
+        verdict: BLOCK
+        reason: policy_violation
+
+      - if: "e_mu < e_mu_bands.restrict.max"
+        verdict: BLOCK
+        reason: system_unstable
+
+      - if: "entropy > entropy.max_p95"
+        verdict: REVIEW
+        reason: low_confidence_output
+
+      - if: "embedding_distance > embedding_distance.max"
+        verdict: REVIEW
+        reason: topic_drift
+
+      - else:
+        verdict: ALLOW
+        reason: acceptable_response
+
+  # ==========================================================
+  # FINANCIAL / RISK CONTEXT
+  # ==========================================================
+  finance:
+    description: >
+      High-risk decision context.
+      Extremely conservative.
+
+    limits:
+      embedding_distance:
+        max: 0.25
+
+      entropy:
+        max_p95: 0.55
+
+      e_mu_bands:
+        accept:   [40, 90]
+        caution:  [25, 40)
+        restrict: (-inf, 25)
+
+      stability:
+        variance_max: 5.0
+
+    decision_logic:
+      - if: "rule_score == 0"
+        verdict: BLOCK
+        reason: regulatory_violation
+
+      - if: "e_mu < e_mu_bands.restrict.max"
+        verdict: BLOCK
+        reason: insufficient_readiness
+
+      - if: "entropy > entropy.max_p95"
+        verdict: REVIEW
+        reason: high_uncertainty
+
+      - if: "embedding_distance > embedding_distance.max"
+        verdict: REVIEW
+        reason: semantic_misalignment
+
+      - else:
+        verdict: ALLOW
+        reason: compliant_and_stable
+
+# ------------------------------------------------------------
+# Logging & Audit Requirements
+# ------------------------------------------------------------
+logging:
+  enabled: true
+  required_fields:
+    - timestamp
+    - context
+    - verdict
+    - metrics
+    - reasons
+    - policy_version
+
+  format: json
+  immutable: true

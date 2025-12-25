@@ -1,0 +1,168 @@
+# Cogman Energetic Engine - Git Ignore
+# Purpose: Protect IP and exclude build artifacts
+
+# ============================================
+# Build Artifacts (C++)
+# ============================================
+kernel/build/
+kernel/CMakeFiles/
+kernel/cmake_install.cmake
+kernel/CMakeCache.txt
+kernel/*.so
+kernel/*.dylib
+kernel/*.dll
+kernel/*.a
+kernel/*.o
+kernel/*.obj
+kernel/*.exe
+kernel/.ninja_deps
+kernel/.ninja_log
+kernel/compile_commands.json
+
+# ============================================
+# Python
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.venv/
+venv/
+ENV/
+env/
+
+# ============================================
+# PyPI / Package Build
+# ============================================
+dist/
+build/
+*.egg-info/
+.pypirc
+
+# ============================================
+# IDE / Editor
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# ============================================
+# Logs and Runtime Data
+# ============================================
+logs/
+*.log
+*.log.*
+storage/audit/execution_logs/*.json
+storage/audit/trace_map/*.json
+storage/runtime/metrics/*.json
+storage/runtime/state/*.json
+storage/gate/verdicts/*.json
+storage/trajectory/raw/*.json
+storage/memory/*/
+storage/cache/*/
+
+# Keep directory structure, ignore files
+!storage/audit/execution_logs/.gitkeep
+!storage/audit/trace_map/.gitkeep
+!storage/runtime/metrics/.gitkeep
+!storage/runtime/state/.gitkeep
+!storage/gate/verdicts/.gitkeep
+!storage/trajectory/raw/.gitkeep
+
+# ============================================
+# Configuration (Sensitive)
+# ============================================
+# Keep template configs, ignore actual configs with secrets
+config/*_secrets.yaml
+config/*_private.yaml
+*.env
+.env
+.env.local
+.env.*.local
+
+# ============================================
+# Test Artifacts
+# ============================================
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+test-results/
+junit.xml
+
+# ============================================
+# Documentation Build
+# ============================================
+docs/_build/
+docs/.doctrees/
+docs/html/
+docs/latex/
+
+# ============================================
+# Temporary Files
+# ============================================
+*.tmp
+*.temp
+*.bak
+*.backup
+*.swp
+*.swo
+*~
+
+# ============================================
+# OS Files
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ============================================
+# IP Protection - DO NOT COMMIT
+# ============================================
+# Core formulas are LOCKED but source code should be protected
+# DO NOT commit:
+# - Compiled binaries
+# - Build artifacts
+# - Test data with real scenarios
+# - API keys / secrets
+# - Personal notes / TODOs
+
+# ============================================
+# Optional: Keep Structure
+# ============================================
+# Keep empty directories
+!storage/*/.gitkeep
+!logs/*/.gitkeep

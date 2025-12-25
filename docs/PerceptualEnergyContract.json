@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Perceptual Energy Unit (PEU) Contract",
+  "version": "1.0",
+  "status": "LOCKED",
+  "description": "Interface contract for Perceptual Energy Mapping layer output",
+  
+  "input": {
+    "type": "object",
+    "required": ["type", "content"],
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": ["text", "image", "audio"],
+        "description": "Input modality type"
+      },
+      "content": {
+        "type": "string",
+        "description": "Raw input content (text string, image path, audio path, etc.)"
+      },
+      "language": {
+        "type": "string",
+        "enum": ["auto", "th", "en", "zh", "ja", "ko"],
+        "default": "auto",
+        "description": "Language code (auto-detect if 'auto')"
+      },
+      "metadata": {
+        "type": "object",
+        "description": "Optional metadata (timestamp, source, etc.)"
+      }
+    }
+  },
+  
+  "output": {
+    "type": "object",
+    "required": ["phrase", "I", "P", "S", "H", "phase", "freq", "role", "confidence"],
+    "properties": {
+      "phrase": {
+        "type": "string",
+        "description": "Extracted phrase or segment"
+      },
+      "I": {
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "description": "Intensity: signal strength [0.0, 1.0]"
+      },
+      "P": {
+        "type": "number",
+        "minimum": -1.0,
+        "maximum": 1.0,
+        "description": "Polarity: positive/negative direction [-1.0, 1.0]"
+      },
+      "S": {
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "description": "Stability: pattern consistency [0.0, 1.0]"
+      },
+      "H": {
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "description": "Entropy: uncertainty/risk [0.0, 1.0]"
+      },
+      "phase": {
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 6.283185307179586,
+        "description": "Phase angle: abstract phase [0, 2π]"
+      },
+      "freq": {
+        "type": "number",
+        "minimum": 0.0,
+        "description": "Semantic rhythm frequency (Hz)"
+      },
+      "role": {
+        "type": "string",
+        "enum": ["goal", "action", "modifier", "context"],
+        "description": "Soft semantic role classification"
+      },
+      "confidence": {
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "description": "Mapping confidence [0.0, 1.0]"
+      },
+      "version": {
+        "type": "string",
+        "description": "PhraseExtractor version that produced this PEU"
+      },
+      "trace_id": {
+        "type": "string",
+        "description": "Optional trace ID for audit"
+      }
+    }
+  },
+  
+  "constraints": {
+    "forbidden_operations": [
+      "compute_delta_E_psi",
+      "call_gate",
+      "make_decision",
+      "write_memory",
+      "reference_physiology"
+    ],
+    "allowed_operations": [
+      "heuristic_mapping",
+      "language_aware_logic",
+      "approximate_estimation",
+      "replaceable_implementation"
+    ]
+  },
+  
+  "determinism": {
+    "level": "partial",
+    "scope": "pre_kernel_only",
+    "guarantees": [
+      "traceable",
+      "explainable",
+      "reproducible_same_version"
+    ]
+  },
+  
+  "ip_boundary": {
+    "layer_type": "non_core",
+    "open_source_allowed": true,
+    "core_ip": "kernel_formulas_only"
+  }
+}
+

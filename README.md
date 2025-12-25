@@ -1,4 +1,4 @@
-# Cogman Runtime
+# Cogman Gate
 
 ## Energetic Decision & Control Infrastructure
 
@@ -10,7 +10,7 @@
 
 ## What This Is (30 seconds)
 
-Cogman Runtime is an **AI Runtime Infrastructure that enforces control**
+Cogman Gate is an **AI Runtime Infrastructure that enforces control**
 
 ```
 AI Model's Request
@@ -315,8 +315,8 @@ $ cogman audit verify runtime_2024-12-24.log
 
 ```bash
 # Clone repository
-git clone https://github.com/cogmanframework/cogman_runtime.git
-cd cogman_runtime
+git clone https://github.com/cogmanframework/cogman_gate.git
+cd cogman_gate
 
 # Install Python dependencies
 pip install -r requirements.txt
@@ -336,7 +336,7 @@ export COGMAN_KERNEL_PATH="$HOME/.cogman/lib/libcogman_kernel.so"  # Linux
 export COGMAN_KERNEL_PATH="$HOME/.cogman/lib/libcogman_kernel.dylib"  # macOS
 ```
 
-**Note:** Cogman Runtime is distributed as **infrastructure** (GitHub + Binary), not via PyPI. See [`INSTALL.md`](INSTALL.md) for details.
+**Note:** Cogman Gate is distributed as **infrastructure** (GitHub + Binary), not via PyPI. See [`INSTALL.md`](INSTALL.md) for details.
 
 ### First Run
 
@@ -485,7 +485,7 @@ AUDIT RIGHTS:
 
 ## Contact & Support
 
-- **Engineering Issues:** [GitHub Issues](https://github.com/cogmanframework/cogman_runtime/issues)
+- **Engineering Issues:** [GitHub Issues](https://github.com/cogmanframework/cogman_gate/issues)
 - **Security Audit:** security@example.com
 - **Policy Requests:** policy-review@example.com
 - **Licensing Questions:** sales@example.com
