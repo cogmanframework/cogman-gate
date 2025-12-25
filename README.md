@@ -90,11 +90,18 @@ dE = I × P × S × (1 - H)
 - ✅ Deterministic output every nanosecond
 - ✅ Reproducible both offline/online
 - ✅ Zero hidden heuristics
+- ✅ Pre-compiled binary (distributed)
+
+**Kernel Source:**
+- 🔒 Maintained in separate repository: https://github.com/cogmanframework/cogman-kernel
+- 🔒 IP protected (core formulas)
+- ✅ Binary available via install script
 
 **What you don't get:**
 - ❌ Cannot change formulas
 - ❌ Cannot add heuristics
 - ❌ Cannot tune parameters yourself
+- ❌ Source code access (protected IP)
 
 ---
 
@@ -321,10 +328,9 @@ cd cogman_gate
 # Install Python dependencies
 pip install -r requirements.txt
 
-# Build C++ kernel
-cd kernel && mkdir build && cd build
-cmake .. && make
-cd ../..
+# Kernel is distributed as binary
+# Source code: https://github.com/cogmanframework/cogman-kernel (private)
+# Binary installation handled by install.sh
 
 # Install runtime (sets up binary)
 chmod +x install.sh
@@ -465,20 +471,25 @@ Trace checkpoint       < 1 ms           Every 1000 decisions
 
 ```
 LOCKED COMPONENTS:
-  • Kernel source (C++): Core formulas locked
+  • Kernel source (C++): Separate repository (IP protected)
   • Formulas: 9 canonical (LOCKED)
   • Core logic: Deterministic by design
   
 DISTRIBUTED:
-  • Compiled kernel (.so / .dylib / .dll)
+  • Compiled kernel (.so / .dylib / .dll) - Binary distribution
   • Python bindings
   • CLI tools
   • Documentation
 
+KERNEL REPOSITORY:
+  • Source: https://github.com/cogmanframework/cogman-kernel (private)
+  • Access: Contact maintainers for source access
+  • Binary: Available via install.sh
+
 AUDIT RIGHTS:
-  • Your security team: Full audit access
+  • Your security team: Full audit access (upon request)
   • Customers (enterprise): Upon contract
-  • Open-source community: Binary signatures only
+  • Open-source community: Binary signatures + API documentation
 ```
 
 ---
